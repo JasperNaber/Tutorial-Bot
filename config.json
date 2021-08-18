@@ -1,4 +1,6 @@
 {
   "prefix": "!",
-  "token": "TOKEN-HERE"
+  "token": "TOKEN-HERE",
+  "bot_name": "TutorialBot",
+  "bot_url": "https://i.imgur.com/h3CzTuJ.gif"
 }

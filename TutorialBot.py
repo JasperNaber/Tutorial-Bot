@@ -6,6 +6,8 @@ with open("config.json") as f:
 
 PREFIX = config.get("prefix")
 TOKEN = config.get("token")
+BOTNAME = config.get("bot_name")
+BOTURL = config.get("bot_url")
 
 client = commands.Bot(command_prefix = PREFIX, case_insensitive = True, intents = discord.Intents.all())
 client.remove_command("help")
@@ -17,7 +19,7 @@ clearWindow = lambda: os.system("cls")
 @client.event
 async def on_ready():
     clearWindow()
-    await client.change_presence(activity=discord.Game(name=f"TutorialBot | {PREFIX}help"))
+    await client.change_presence(activity=discord.Game(name=f"{BOTNAME} | {PREFIX}help"))
     print("""
 :::::::::  ::::::::::     :::     :::::::::  :::   ::: 
 :+:    :+: :+:          :+: :+:   :+:    :+: :+:   :+: 
@@ -118,9 +120,9 @@ async def help(ctx, module : str = "general"):
         """
 
         em = discord.Embed(description = help_general, color = 0x000000)
-        em.set_author(name = "TutorialBot Help")
-        em.set_footer(text = "TutorialBot")
-        em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+        em.set_author(name = f"{BOTNAME} Help")
+        em.set_footer(text = f"{BOTNAME}")
+        em.set_thumbnail(url = BOTURL)
         em.timestamp = datetime.datetime.utcnow()
 
         await ctx.send(embed = em)
@@ -221,8 +223,8 @@ async def lock(ctx, channel : discord.TextChannel = None, *, reason : str = None
 
     em = discord.Embed(description = "Locked channel\n\nReason: `" + reason + "`")
     em.set_author(name = "Channel Locked")
-    em.set_footer(text = "TutorialBot")
-    em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+    em.set_footer(text = BOTNAME)
+    em.set_thumbnail(url = BOTURL)
     em.timestamp = datetime.datetime.utcnow()
 
     await channel.send(embed = em)
@@ -425,7 +427,7 @@ async def serverinfo(ctx):
 
     em = discord.Embed(color = 0x000000)
     em.set_author(name = ctx.guild.name)
-    em.set_footer(text = "TutorialBot")
+    em.set_footer(text = BOTNAME)
     em.set_thumbnail(url = ctx.guild.icon_url)
     em.timestamp = datetime.datetime.utcnow()
 
@@ -448,8 +450,8 @@ async def channelinfo(ctx, channel : discord.TextChannel = None):
 
     em = discord.Embed(color = 0x000000)
     em.set_author(name = channel.name)
-    em.set_footer(text = "TutorialBot")
-    em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+    em.set_footer(text = BOTNAME)
+    em.set_thumbnail(url = BOTURL)
     em.timestamp = datetime.datetime.utcnow()
 
     em.add_field(name = "Name", value = channel.name, inline = True)
@@ -468,7 +470,7 @@ async def whois(ctx, member : discord.Member = None):
 
     em = discord.Embed(color = 0x000000)
     em.set_author(name = member.name + "#" + member.discriminator)
-    em.set_footer(text = "TutorialBot")
+    em.set_footer(text = BOTNAME)
     em.set_thumbnail(url = member.avatar_url)
     em.timestamp = datetime.datetime.utcnow()
 
@@ -488,8 +490,8 @@ async def whois(ctx, member : discord.Member = None):
 async def roleinfo(ctx, role : discord.Role):
     em = discord.Embed(color = 0x000000)
     em.set_author(name = role.name)
-    em.set_footer(text = "TutorialBot")
-    em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+    em.set_footer(text = BOTNAME)
+    em.set_thumbnail(url = BOTURL)
     em.timestamp = datetime.datetime.utcnow()
 
     em.add_field(name = "ID", value = role.id, inline = True)
@@ -526,8 +528,8 @@ async def membercount(ctx):
 
     em = discord.Embed(description = description, color = 0x000000)
     em.set_author(name = "Member Count")
-    em.set_footer(text = "TutorialBot")
-    em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+    em.set_footer(text = BOTNAME)
+    em.set_thumbnail(url = BOTURL)
     em.timestamp = datetime.datetime.utcnow()
 
     await ctx.send(embed = em)
@@ -546,9 +548,9 @@ async def botinfo(ctx):
     """
 
     em = discord.Embed(description = description, color = 0x000000)
-    em.set_author(name = "TutorialBot Info")
-    em.set_footer(text = "TutorialBot")
-    em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+    em.set_author(name = f"{BOTNAME} Info")
+    em.set_footer(text = BOTNAME)
+    em.set_thumbnail(url = BOTURL)
     em.timestamp = datetime.datetime.utcnow()
 
     await ctx.send(embed = em)
@@ -584,9 +586,9 @@ async def say(ctx, *, txt : str):
 @client.command()
 async def emsay(ctx, *, txt : str):
     em = discord.Embed(description = txt, color = 0x000000)
-    em.set_author(name = "TutorialBot")
-    em.set_footer(text = "TutorialBot")
-    em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+    em.set_author(name = BOTNAME)
+    em.set_footer(text = BOTNAME)
+    em.set_thumbnail(url = BOTURL)
     em.timestamp = datetime.datetime.utcnow()
 
     await ctx.send(embed = em)
@@ -669,8 +671,8 @@ async def poll(ctx):
 
     em = discord.Embed(description = description, color = 0x000000)
     em.set_author(name = "Poll")
-    em.set_footer(text = "TutorialBot")
-    em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+    em.set_footer(text = BOTNAME)
+    em.set_thumbnail(url = BOTURL)
     em.timestamp = datetime.datetime.utcnow()
 
     msg = await ctx.send(embed = em)
@@ -734,9 +736,9 @@ async def ticket(ctx):
     await ticket_channel.set_permissions(ctx.author, read_messages=True)
 
     em = discord.Embed(description = "Support will be with you shortly!", color = 0x000000)
-    em.set_author(name = "TutorialBot")
-    em.set_footer(text = "TutorialBot")
-    em.set_thumbnail(url = "https://i.imgur.com/h3CzTuJ.gif")
+    em.set_author(name = BOTNAME)
+    em.set_footer(text = BOTNAME)
+    em.set_thumbnail(url = BOTURL)
     em.timestamp = datetime.datetime.utcnow()
 
     await ticket_channel.send(embed = em)
