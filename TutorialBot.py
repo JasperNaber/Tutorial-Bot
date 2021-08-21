@@ -129,6 +129,7 @@ async def help(ctx, module : str = "general"):
 
 ##### STAFF #####
 @client.command()
+@commands.has_permissions(mute_members = True)
 async def mute(ctx, member : discord.Member, *, reason : str = None):
     for role in ctx.guild.roles:
         if role.name == "Muted":
@@ -148,6 +149,7 @@ async def mute(ctx, member : discord.Member, *, reason : str = None):
     await ctx.send("Succesfully muted " + member.name + "\nReason: `" + reason + "`")
 
 @client.command()
+@commands.has_permissions(mute_members = True)
 async def unmute(ctx, member : discord.Member):
     for role in member.roles:
         if role.name == "Muted":
@@ -161,17 +163,20 @@ async def unmute(ctx, member : discord.Member):
     await ctx.send(member.name + " is not muted anymore!")
 
 @client.command()
+@commands.has_permissions(kick_members = True)
 async def kick(ctx, member : discord.Member, *, reason : str = None):
     await member.kick(reason = reason)
 
     await ctx.send("Succesfully kicked " + member.name + "\nReason: `" + reason + "`")
 
 @client.command()
+@commands.has_permissions(ban_members = True)
 async def ban(ctx, member : discord.Member, *, reason : str = None):
     await member.ban(reason = reason)
     await ctx.send("Succesfully banned `" + member.name + "`")
 
 @client.command()
+@commands.has_permissions(ban_members = True)
 async def unban(ctx, *, member):
     if "#" in member:
         member_name, member_discriminator = str(member).split("#")
@@ -193,26 +198,31 @@ async def unban(ctx, *, member):
             return
 
 @client.command()
+@commands.has_permissions(manage_roles = True)
 async def addrole(ctx, role : discord.Role, member : discord.Member):
     await member.add_roles(role)
     await ctx.send("Succesfully gave `" + member.name + "` the role `" + role.name + "`")
 
 @client.command()
+@commands.has_permissions(manage_roles = True)
 async def delrole(ctx, role : discord.Role, member : discord.Member):
     await member.remove_roles(role)
     await ctx.send("Succesfully removed `" + role.name + "` from `" + member.name + "`")
 
 @client.command()
+@commands.has_permissions(manage_messages = True)
 async def purge(ctx, amt : int = 10):
     await ctx.channel.purge(limit = amt + 1)
     await ctx.send("Succesfully purged `" + amt + "` messages.")
 
 @client.command()
+@commands.has_permissions(manage_nicknames = True)
 async def nick(ctx, member : discord.Member, *, nick : str = None):
     await member.edit(nick = nick)
     await ctx.send("Succesfully changed the name of " + member.mention)
 
 @client.command()
+@commands.has_permissions(manage_channels = True)
 async def lock(ctx, channel : discord.TextChannel = None, *, reason : str = None):
     if not channel:
         channel = ctx.channel
@@ -230,6 +240,7 @@ async def lock(ctx, channel : discord.TextChannel = None, *, reason : str = None
     await channel.send(embed = em)
 
 @client.command()
+@commands.has_permissions(manage_channels = True)
 async def unlock(ctx, *, channel : discord.TextChannel = None):
     if not channel:
         channel = ctx.channel
@@ -580,10 +591,12 @@ async def rnumber(ctx, minimum : int, maximum : int):
     await ctx.send(rnum)
 
 @client.command()
+@commands.has_permissions(manage_messages = True)
 async def say(ctx, *, txt : str):
     await ctx.send(txt)
 
 @client.command()
+@commands.has_permissions(manage_messages = True)
 async def emsay(ctx, *, txt : str):
     em = discord.Embed(description = txt, color = 0x000000)
     em.set_author(name = BOTNAME)
@@ -594,6 +607,7 @@ async def emsay(ctx, *, txt : str):
     await ctx.send(embed = em)
 
 @client.command()
+@commands.has_permissions(manage_messages = True)
 async def poll(ctx):
     def check(message):
         return message.author == ctx.author and message.channel == ctx.channel
@@ -747,6 +761,7 @@ async def ticket(ctx):
     await ctx.send("Your ticket has been created: " + ticket_channel.mention)
 
 @client.command()
+@commands.has_permissions(manage_channels = True)
 async def close(ctx, channel : discord.TextChannel = None):
     if not channel:
         channel = ctx.channel
@@ -771,6 +786,7 @@ async def close(ctx, channel : discord.TextChannel = None):
         await channel.delete()
 
 @client.command()
+@commands.has_permissions(manage_channels = True)
 async def adduser(ctx, member : discord.Member, ticket_channel : discord.TextChannel = None):
     if not ticket_channel:
         ticket_channel = ctx.channel
@@ -783,6 +799,7 @@ async def adduser(ctx, member : discord.Member, ticket_channel : discord.TextCha
     await ticket_channel.send(member.mention + " has succesfully been added to this ticket.")
 
 @client.command()
+@commands.has_permissions(manage_channels = True)
 async def deluser(ctx, member : discord.Member, ticket_channel : discord.TextChannel = None):
     if not ticket_channel:
         ticket_channel = ctx.channel
